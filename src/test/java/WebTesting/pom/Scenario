@@ -1,0 +1,17 @@
+
+
+****  Selenium Web Otomasyonu  ****
+- https://www.beymen.com/ sitesine gidilir
+- anasayfanın açıldığını kontrol edillir
+- arama kutucuğuna "şort" kelimesini girilir (not: şort kelimesi excel dosyası üzerinden 1 sutun ve 1 satırdan alınarak yazılmalıdır)
+- arama kutucuğundan şort kelimesi silinir
+- arama kutucuğuna "gömlek" kelimesini girilir (not: gömlek kelimesi excel dosyası üzerinden 2 sutun ve 1 satırdan alınarak yazılmalıdır)
+- klavye üzerinden "enter" tuşuna basılır
+- sonuca göre sergilenen ürünlerden rastgele bir ürün seçilir
+
+
+- seçilen ürünün ürün  bilgisi ve tutar bilgisini txt dosyasına yazılır.
+- seçilen ürün sepete eklenir.
+- ürün sayfasındaki fiyat ile sepette yer alan ürün fiyatınının doğruluğu karşılaştırılır.
+- adet arttırılarak ürün adedinin 2 olduğunu doğrulanır.
+- ürün sepetten silinerek sepetin boş olduğunu kontrol edilir.
