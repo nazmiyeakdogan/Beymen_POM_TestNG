@@ -18,7 +18,6 @@ public class Beymen_WebTest extends GWD {
     @Test
     public void Test() {
 
-
         GWD.getDriver().get("https://www.beymen.com/");
 
         WebElement cookies = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//button[text()='Tüm Çerezleri Kabul Et'])[2]")));
@@ -50,6 +49,38 @@ public class Beymen_WebTest extends GWD {
 
         String pathh = "src/test/java/WebTesting/pom/productName";
         Parent.getTxt(pathh, productTitle);
+
+        List<WebElement> sizeList = driver.findElements(By.xpath("//div[@class='m-variation']//span"));
+        if(sizeList.size() > 0){
+            WebElement getSize = driver.findElement(By.cssSelector(".m-variation__item:not(.-disabled)"));
+            Parent.clickToElement(getSize);
+        }else {
+            System.out.println("ürün stokları tükenmiştir");
+        }
+
+        WebElement addToBasket = driver.findElement(By.xpath("//button[@id='addBasket']"));
+        Parent.clickToElement(addToBasket);
+
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(),'Sepete Git')]")));
+        WebElement basket = driver.findElement(By.xpath("//*[contains(text(),'Sepete Git')]"));
+        Parent.clickToElement(basket);
+
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[@class='m-productPrice__salePrice']")));
+        WebElement price1 = driver.findElement(By.xpath("//span[@class='m-productPrice__salePrice']"));
+
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li[@class='m-orderSummary__item -grandTotal']//span[@class='m-orderSummary__value']")));
+        WebElement price2 = driver.findElement(By.xpath("//li[@class='m-orderSummary__item -grandTotal']//span[@class='m-orderSummary__value']"));
+
+        WebElement kargo = driver.findElement(By.xpath("(//li[@class='m-orderSummary__item'])[2]//span[@class='m-orderSummary__value']"));
+
+        int intKargo = Integer.parseInt(kargo.getText().replaceAll("[^0-9]", ""));
+        if(intKargo == 0 ){
+            Assert.assertTrue(price1.getText().contains(price2.getText()));
+        }else {
+            System.out.println("ürün için " + intKargo + " TL  kargo ücreti eklenmiştir");
+        }
+
+
 
 
 
