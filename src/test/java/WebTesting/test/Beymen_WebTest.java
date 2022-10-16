@@ -8,6 +8,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -71,7 +72,8 @@ public class Beymen_WebTest extends GWD {
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li[@class='m-orderSummary__item -grandTotal']//span[@class='m-orderSummary__value']")));
         WebElement price2 = driver.findElement(By.xpath("//li[@class='m-orderSummary__item -grandTotal']//span[@class='m-orderSummary__value']"));
 
-        WebElement kargo = driver.findElement(By.xpath("(//li[@class='m-orderSummary__item'])[2]//span[@class='m-orderSummary__value']"));
+        WebElement kargo = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//li[@class='m-orderSummary__item'])[2]//span[@class='m-orderSummary__value']")));
+
 
         int intKargo = Integer.parseInt(kargo.getText().replaceAll("[^0-9]", ""));
         if(intKargo == 0 ){
@@ -80,8 +82,16 @@ public class Beymen_WebTest extends GWD {
             System.out.println("ürün için " + intKargo + " TL  kargo ücreti eklenmiştir");
         }
 
-
-
+        WebElement piece = driver.findElement(By.id("quantitySelect0-key-0"));
+        Select menu = new Select(piece);
+        WebElement control = driver.findElement(By.xpath("(//option[@value])[2]"));
+        if (menu.getOptions().size() > 1){
+            menu.selectByIndex(1);
+            System.out.println("Adet : 2 adet");
+            Assert.assertTrue(piece.getText().contains(control.getText()));
+        }else {
+            System.out.println("yeteri kadar stok bulunmamaktadır");
+        }
 
 
         quitDriver();
