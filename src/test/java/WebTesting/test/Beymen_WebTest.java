@@ -74,28 +74,45 @@ public class Beymen_WebTest extends GWD {
 
         WebElement kargo = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//li[@class='m-orderSummary__item'])[2]//span[@class='m-orderSummary__value']")));
 
-
         int intKargo = Integer.parseInt(kargo.getText().replaceAll("[^0-9]", ""));
+
         if(intKargo == 0 ){
-            Assert.assertTrue(price1.getText().contains(price2.getText()));
+            if (price1.getText().contains(price2.getText())){
+                System.out.println("ödenecek miktar: " + price1.getText());
+            }else {
+                WebElement indirim = driver.findElement(By.xpath("(//span[@class='m-orderSummary__value'])[2]"));
+                System.out.println("indirim tutarı: " + indirim.getText());
+                System.out.println("ödenecek miktar: " + price2.getText());
+            }
         }else {
             System.out.println("ürün için " + intKargo + " TL  kargo ücreti eklenmiştir");
         }
 
         WebElement piece = driver.findElement(By.id("quantitySelect0-key-0"));
         Select menu = new Select(piece);
-        WebElement control = driver.findElement(By.xpath("(//option[@value])[2]"));
+
         if (menu.getOptions().size() > 1){
+            WebElement control = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//option[@value])[2]")));
             menu.selectByIndex(1);
             System.out.println("Adet : 2 adet");
             Assert.assertTrue(piece.getText().contains(control.getText()));
         }else {
-            System.out.println("yeteri kadar stok bulunmamaktadır");
+            System.out.println("İkinci ürün için yeteri kadar stok bulunmamaktadır");
         }
 
+        WebElement delete = driver.findElement(By.xpath("//button[@id='removeCartItemBtn0-key-0']"));
+        Parent.clickToElement(delete);
+
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[contains(@class,'m-notification__close')]")));
+        WebElement closeButton = driver.findElement(By.xpath("//button[contains(@class,'m-notification__close')]"));
+        Parent.clickToElement(closeButton);
+
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//strong[text()='Sepetinizde Ürün Bulunmamaktadır']")));
+        WebElement check = driver.findElement(By.xpath("//strong[text()='Sepetinizde Ürün Bulunmamaktadır']"));
+
+        Assert.assertTrue(check.getText().toUpperCase().contains(" ÜRÜN BULUNMAMAKTADIR"));
 
         quitDriver();
-
 
     }
 
